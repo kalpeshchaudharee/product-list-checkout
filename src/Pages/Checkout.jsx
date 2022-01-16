@@ -1,6 +1,7 @@
 /* This example requires Tailwind CSS v2.0+ */
 import { useState } from "react";
 import Header from "../Components/Header";
+import PaymentForm from "../Components/PaymentForm";
 
 const products = localStorage.getItem("cart_items")
   ? JSON.parse(localStorage.getItem("cart_items"))
@@ -82,17 +83,11 @@ export default function Checkout(props) {
                   <p>Subtotal</p>
                   {subTotal()}
                 </div>
-                <p className="mt-0.5 text-sm text-gray-500">
-                  Shipping and taxes calculated at checkout.
-                </p>
-                <div className="mt-6 col grid grid-cols-3 gap-4">
-                  <div></div>
-                  <button
-                    href="#"
-                    className="flex justify-center items-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700"
-                  >
-                    Checkout
-                  </button>
+                <div className="mt-6">
+                  <div>
+                    <PaymentForm />
+                  </div>
+                  
                 </div>
                 <div className="mt-6 flex justify-center text-sm text-center text-gray-500">
                   <p>
