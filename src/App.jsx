@@ -1,4 +1,4 @@
-import { Routes, Route, Link } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import "./App.css";
 import Checkout from "./Pages/Checkout";
 import ProductList from "./Pages/ProductList";

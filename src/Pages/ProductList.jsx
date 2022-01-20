@@ -62,8 +62,10 @@ const products = [
 function ProductList() {
   const [productList, setProductList] = useState(products);
   const selectProduct = (product, e) => {
+    e.preventDefault();
     var updatedProduct = productList.map((productData) => {
       if (productData.id === product.id) {
+        productData.qty = 1;
         productData.is_selected = !productData.is_selected;
       }
       return productData;
@@ -75,19 +77,39 @@ function ProductList() {
     localStorage.setItem('cart_items', JSON.stringify(selectedProducts));
     window.location.href = '/checkout';
   };
+  const updateQty = (e) => {
+
+  };
+  const decrement = (product, e) => {
+    if(product.qty > 0) {
+      var updatedProduct = productList.map((productData) => {
+        if (productData.id === product.id) {
+          if(product.qty === 1) {
+            productData.is_selected = false;
+          }
+          productData.qty -= 1;
+        }
+        return productData;
+      });
+      setProductList(updatedProduct);
+    }
+  };
+  const increment = (product, e) => {
+    var updatedProduct = productList.map((productData) => {
+      if (productData.id === product.id) {
+        productData.qty += 1;
+      }
+      return productData;
+    });
+    setProductList(updatedProduct);
+  };
   return (
     <div className="bg-white">
       <Header title="Featured" />
-      <div className="max-w-2xl mx-auto py-8 px-4 sm:py-16 sm:px-6 lg:max-w-7xl lg:px-8">
+      <div className="max-w-2xl mx-auto py-8 px-4 sm:py-16 sm:px-6 lg:max-w-7xl lg:px-8 mt-10">
         <div className="mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
           {productList.map((product) => (
             <div key={product.id}>
-              <input
-                type="checkbox"
-                checked={product.is_selected}
-                className="flex justify-start my-5"
-                onChange={(e) => selectProduct(product, e)}
-              />
               <div className="group relative">
                 <div className="w-full min-h-80 bg-gray-200 aspect-w-1 aspect-h-1 rounded-md overflow-hidden group-hover:opacity-75 lg:h-80 lg:aspect-none">
                   <img
@@ -99,10 +121,7 @@ function ProductList() {
                 <div className="mt-4 flex justify-between">
                   <div>
                     <h3 className="text-sm text-gray-700">
-                      <a href={product.href}>
-                        <span aria-hidden="true" className="absolute inset-0" />
-                        {product.name}
-                      </a>
+                      {product.name}
                     </h3>
                     <p className="mt-1 text-sm text-gray-500">
                       {product.color}
@@ -112,6 +131,33 @@ function ProductList() {
                     ${product.price}
                   </p>
                 </div>
+                {
+                  product.is_selected === false ?
+                    (
+                      <button
+                        onClick={(e) => selectProduct(product, e)}
+                        className="mt-5 bg-indigo-600 border border-transparent rounded-md py-2 px-4 flex items-center justify-center font-sm text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 mx-auto"
+                      >
+                        Add To Cart
+                      </button>
+                    ) : (
+                      <div className="flex justify-center mt-7">
+                        <button
+                          onClick={(e) => decrement(product, e)}
+                          className="px-5 m-0 border"
+                        >
+                          -
+                        </button>
+                        <input type="text" value={product.qty} onChange={(e) => updateQty(product, e)} className="w-10 border text-center"/>
+                        <button
+                          onClick={(e) => increment(product, e)}
+                          className="px-5 m-0 border"
+                        >
+                          +
+                        </button>
+                      </div>
+                    )
+                }
               </div>
             </div>
           ))}

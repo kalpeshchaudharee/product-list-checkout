@@ -16,9 +16,10 @@ export default function Checkout(props) {
   };
   const subTotal = () => {
     var total = 0;
-    productList.map((item) => {
-      total += item.price;
-    });
+    for(let item of productList) {
+      total += (item.price * item.qty);
+
+    }
     return <p>${total}</p>;
   };
   return (
@@ -30,7 +31,7 @@ export default function Checkout(props) {
             <div className="flex-1 py-6 px-4 sm:px-6">
               <div className="mt-24 px-24 container">
                 <div className="flow-root">
-                  <ul role="list" className="-my-6 divide-y divide-gray-200">
+                  <ul className="-my-6 divide-y divide-gray-200">
                     {productList.length > 0 &&
                       productList.map((product) => (
                         <li key={product.id} className="py-6 flex">
@@ -48,7 +49,7 @@ export default function Checkout(props) {
                                 <h3>
                                   <a href={product.href}>{product.name}</a>
                                 </h3>
-                                <p className="ml-4">${product.price}</p>
+                                <p className="ml-4">${product.price * product.qty}</p>
                               </div>
                               <p className="mt-1 text-sm text-gray-500">
                                 {product.color}
@@ -56,7 +57,7 @@ export default function Checkout(props) {
                             </div>
                             <div className="flex-1 flex items-end justify-between text-sm">
                               <p className="text-gray-500">
-                                Qty {product.quantity ?? 1}
+                                Qty {product.qty ?? 1}
                               </p>
 
                               <div className="flex">
