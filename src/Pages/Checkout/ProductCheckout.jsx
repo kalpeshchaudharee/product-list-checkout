@@ -1,11 +1,13 @@
 /* This example requires Tailwind CSS v2.0+ */
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import Header from "../../Components/Header";
 import CartItems from "./CartItems";
 import PaymentForm from "./PaymentForm";
 
 export default function ProductCheckout(props) {
   const cartItems = useSelector((state) => state.cart);
+  const navigate = useNavigate();
 
   const subTotal = () => {
     var total = 0;
@@ -43,12 +45,12 @@ export default function ProductCheckout(props) {
                 <div className="mt-6 flex justify-center text-sm text-center text-gray-500">
                   <p>
                     or{" "}
-                    <a
-                      href="/"
-                      className="text-indigo-600 font-medium hover:text-indigo-500"
+                    <span
+                      onClick={(e) => navigate("/")}
+                      className="text-indigo-600 font-medium hover:text-indigo-500 cursor-pointer"
                     >
                       Continue Shopping<span aria-hidden="true"> &rarr;</span>
-                    </a>
+                    </span>
                   </p>
                 </div>
               </div>
@@ -58,12 +60,12 @@ export default function ProductCheckout(props) {
           <div className="flex h-screen">
             <div className="m-auto">
               <h3>Cart is Empty</h3>
-              <a
-                href="/"
-                className="text-indigo-600 font-medium hover:text-indigo-500"
+              <span
+                onClick={(e) => navigate("/")}
+                className="text-indigo-600 font-medium hover:text-indigo-500 cursor-pointer"
               >
                 Continue Shopping<span aria-hidden="true"> &rarr;</span>
-              </a>
+              </span>
             </div>
           </div>
         )}

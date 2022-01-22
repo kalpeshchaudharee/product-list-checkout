@@ -1,12 +1,13 @@
 import React from "react";
 import { useDispatch } from "react-redux";
+import { removeItem } from "../../features/users/cartSlice";
 
 export default function CartItems({ products }) {
   const dispatch = useDispatch();
 
-  const removeItem = (item, e) => {
+  const deleteItem = (item, e) => {
     e.preventDefault();
-    dispatch(item);
+    dispatch(removeItem(item));
   };
   return (
     <div>
@@ -36,7 +37,7 @@ export default function CartItems({ products }) {
               <div className="flex">
                 <button
                   type="button"
-                  onClick={(e) => removeItem(product, e)}
+                  onClick={(e) => deleteItem(product, e)}
                   className="font-medium text-indigo-600 hover:text-indigo-500"
                 >
                   Remove
